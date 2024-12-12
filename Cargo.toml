@@ -1,0 +1,12 @@
+[package]
+name = "deepbook-v3-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sui_sdk = { git = "https://github.com/mystenlabs/sui", package = "sui-sdk"}
+sui-transaction-builder  = { git = "https://github.com/mystenlabs/sui", package = "sui-transaction-builder"}
+sui-types = { git = "https://github.com/mystenlabs/sui", package = "sui-types"}
+tokio = { version = "1", features = ["full"] }
+anyhow = "1.0"
+thiserror = "2.0"
