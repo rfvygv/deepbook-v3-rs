@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use crate::utils::config::DeepBookConfig;
 
+#[derive(Clone)]
 pub struct DeepBookContract {
     config: Arc<DeepBookConfig>,
 }

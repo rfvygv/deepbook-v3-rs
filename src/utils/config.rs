@@ -7,7 +7,6 @@ use crate::utils::constants::{
 };
 use anyhow::anyhow;
 use std::collections::HashMap;
-use std::str::FromStr;
 use std::sync::Arc;
 
 use sui_types::base_types::SuiAddress;
@@ -33,15 +32,12 @@ pub struct DeepBookConfig {
 impl DeepBookConfig {
     pub fn new(
         env: Environment,
-        address: &str,
+        address: SuiAddress,
         admin_cap: Option<String>,
         balance_managers: Option<HashMap<String, BalanceManager>>,
         coins: Option<CoinMap>,
         pools: Option<PoolMap>,
     ) -> DeepBookResult<Self> {
-        SuiAddress::from_str(address)
-            .map_err(|err| DeepBookError::AnyhowError(anyhow!("Wrong address: {}", err)))?;
-
         let (deepbook_package_id, registry_id, deep_treasury_id) = match env {
             Environment::Mainnet => (
                 MAINNET_PACKAGE_IDS.deepbook_package_id.clone(),
@@ -81,7 +77,7 @@ impl DeepBookConfig {
         })
     }
 
-    pub fn get_coin(self, key: &str) -> DeepBookResult<Coin> {
+    pub fn get_coin(&self, key: &str) -> DeepBookResult<Coin> {
         self.coins
             .get(key)
             .cloned()
@@ -95,7 +91,7 @@ impl DeepBookConfig {
             .ok_or_else(|| DeepBookError::AnyhowError(anyhow!("Pool not found for key: {}", key)))
     }
 
-    pub fn get_balance_manager(self, manager_key: &str) -> DeepBookResult<BalanceManager> {
+    pub fn get_balance_manager(&self, manager_key: &str) -> DeepBookResult<BalanceManager> {
         self.balance_managers
             .get(manager_key)
             .cloned()
